@@ -9,6 +9,9 @@ public class GameSession implements Serializable {
 
     private String playerName;
 
+    public GameSession() {
+    }
+
     public GameSession(String playerName) {
         this.wins = 0;
         this.losses = 0;
