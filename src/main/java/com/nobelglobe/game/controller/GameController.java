@@ -3,6 +3,7 @@ package com.nobelglobe.game.controller;
 import com.nobelglobe.game.service.SessionService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,5 +20,10 @@ public class GameController {
     @PostMapping("/start")
     public String startGame() {
         return sessionService.createSession();
+    }
+
+    @PostMapping("/terminate")
+    public String terminateGame(@RequestParam String sessionId) {
+        return sessionService.terminateSession(sessionId);
     }
 }

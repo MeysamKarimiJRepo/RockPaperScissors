@@ -23,4 +23,9 @@ public class SessionService {
     private String generateSessionId() {
         return "session_" + System.currentTimeMillis();
     }
+
+    public String terminateSession(String sessionId) {
+        redisTemplate.delete(sessionId);
+        return "Session terminated.";
+    }
 }
