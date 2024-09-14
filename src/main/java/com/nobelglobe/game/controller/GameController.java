@@ -1,5 +1,6 @@
 package com.nobelglobe.game.controller;
 
+import com.nobelglobe.game.model.GameResult;
 import com.nobelglobe.game.service.GameService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,5 +26,10 @@ public class GameController {
     @PostMapping("/terminate")
     public String terminateGame(@RequestParam String sessionId) {
         return gameService.terminateSession(sessionId);
+    }
+
+    @PostMapping("/play")
+    public GameResult playMove(@RequestParam String playerMove,@RequestParam String sessionId ) {
+        return gameService.playMove(playerMove, sessionId);
     }
 }
