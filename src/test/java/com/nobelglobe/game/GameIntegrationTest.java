@@ -1,6 +1,7 @@
 package com.nobelglobe.game;
 
 import com.nobelglobe.game.service.GameService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -36,17 +37,17 @@ public class GameIntegrationTest {
     @Test
     public void testStartAPI() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        mockMvc.perform(post("/api/game/start")
+        mockMvc.perform(post("/api/game/start").param("playerName", "user1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(org.hamcrest.Matchers.notNullValue()));
+                .andExpect(content().string(Matchers.notNullValue()));
     }
 
     @Test
     public void testTerminateSession() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        MvcResult createSessionResult = mockMvc.perform(post("/api/game/start")
+        MvcResult createSessionResult = mockMvc.perform(post("/api/game/start").param("playerName","user1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -64,7 +65,7 @@ public class GameIntegrationTest {
     public void testPlayMove() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        MvcResult createSessionResult = mockMvc.perform(post("/api/game/start")
+        MvcResult createSessionResult = mockMvc.perform(post("/api/game/start").param("playerName", "User1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -83,7 +84,7 @@ public class GameIntegrationTest {
     @Test
     public void testCreateSession() {
         // Call the actual method from GameService
-        String sessionId = gameService.createSession(playerName);
+        String sessionId = gameService.createSession("playerName");
 
         // Perform assertions
         assertNotNull(sessionId, "Session ID should not be null");
