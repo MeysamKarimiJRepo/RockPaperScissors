@@ -5,11 +5,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SessionService {
+public class GameService {
 
     private final RedisTemplate<String, GameSession> redisTemplate;
 
-    public SessionService(RedisTemplate<String, GameSession> redisTemplate) {
+    public GameService(RedisTemplate<String, GameSession> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
