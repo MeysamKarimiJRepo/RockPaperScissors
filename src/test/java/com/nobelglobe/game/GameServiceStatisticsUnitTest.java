@@ -31,7 +31,7 @@ public class GameServiceStatisticsUnitTest {
     @Test
     public void testUpdateGameSessionStatistics_win() {
         String sessionId = "session123";
-        GameSession mockSession = new GameSession();
+        GameSession mockSession = new GameSession("player1");
         mockSession.setWins(2);
         mockSession.setLosses(1);
         mockSession.setDraws(1);
@@ -50,7 +50,7 @@ public class GameServiceStatisticsUnitTest {
     @Test
     public void testUpdateGameSessionStatistics_loss() {
         String sessionId = "session456";
-        GameSession mockSession = new GameSession();
+        GameSession mockSession = new GameSession("Player1");
         mockSession.setWins(3);
         mockSession.setLosses(2);
         mockSession.setDraws(1);

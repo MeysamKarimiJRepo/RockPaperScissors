@@ -2,6 +2,7 @@ package com.nobelglobe.game.service;
 
 import com.nobelglobe.game.model.GameResult;
 import com.nobelglobe.game.model.GameSession;
+import com.nobelglobe.game.model.GameStatistics;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,8 @@ public class GameService {
         this.redisTemplate = redisTemplate;
     }
 
-    public String createSession() {
-        GameSession newSession = new GameSession();
+    public String createSession(String playerName) {
+        GameSession newSession = new GameSession(playerName);
         String sessionId = generateSessionId();
         redisTemplate.opsForValue().set(sessionId, newSession);
         return sessionId;
@@ -41,16 +42,12 @@ public class GameService {
     public GameResult playMove(String playerMove, String sessionId) {
         String aiMove = generateMove();
         GameResult gameResult = evaluateGame(playerMove, aiMove);
-        updateGameSessionStatistics(sessionId,gameResult.getResult());
+        updateGameSessionStatistics(sessionId, gameResult.getResult());
         return gameResult;
     }
 
     public void updateGameSessionStatistics(String sessionId, String result) {
-        GameSession gameSession = redisTemplate.opsForValue().get(sessionId);
-
-        if (gameSession == null) {
-            throw new IllegalArgumentException("Invalid session ID: " + sessionId);
-        }
+        GameSession gameSession = getGameSession(sessionId);
 
         switch (result) {
             case WIN -> gameSession.setWins(gameSession.getWins() + 1);
@@ -60,6 +57,14 @@ public class GameService {
         }
 
         redisTemplate.opsForValue().set(sessionId, gameSession);
+    }
+
+    private GameSession getGameSession(String sessionId) {
+        GameSession gameSession = redisTemplate.opsForValue().get(sessionId);
+        if (gameSession == null) {
+            throw new IllegalArgumentException("Invalid session ID: " + sessionId);
+        }
+        return gameSession;
     }
 
     public GameResult evaluateGame(String playerMove, String aiMove) {
@@ -82,5 +87,10 @@ public class GameService {
         String[] moves = {"Rock", "Paper", "Scissors"};
         Random random = new Random();
         return moves[random.nextInt(3)];
+    }
+
+    public GameStatistics getStatistics(String sessionId) {
+        GameSession gameSession = getGameSession(sessionId);
+        return new GameStatistics(gameSession.getWins(), gameSession.getLosses(), gameSession.getDraws());
     }
 }

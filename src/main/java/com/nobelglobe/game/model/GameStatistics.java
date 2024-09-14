@@ -1,19 +1,15 @@
 package com.nobelglobe.game.model;
 
-import java.io.Serializable;
+public class GameStatistics {
 
-public class GameSession implements Serializable {
     private int wins;
     private int losses;
     private int draws;
 
-    private String playerName;
-
-    public GameSession(String playerName) {
-        this.wins = 0;
-        this.losses = 0;
-        this.draws = 0;
-        this.playerName = playerName;
+    public GameStatistics(int wins, int losses, int draws) {
+        this.wins = wins;
+        this.losses = losses;
+        this.draws = draws;
     }
 
     public int getWins() {
@@ -38,13 +34,5 @@ public class GameSession implements Serializable {
 
     public void setDraws(int draws) {
         this.draws = draws;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
     }
 }

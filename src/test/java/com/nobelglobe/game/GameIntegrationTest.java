@@ -83,7 +83,7 @@ public class GameIntegrationTest {
     @Test
     public void testCreateSession() {
         // Call the actual method from GameService
-        String sessionId = gameService.createSession();
+        String sessionId = gameService.createSession(playerName);
 
         // Perform assertions
         assertNotNull(sessionId, "Session ID should not be null");

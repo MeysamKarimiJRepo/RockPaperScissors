@@ -49,14 +49,14 @@ class GameControllerUnitTest {
 
     @Test
     public void testStartAPI() throws Exception {
-        when(gameServiceMock.createSession()).thenReturn(mockSessionId);
+        when(gameServiceMock.createSession(playerName)).thenReturn(mockSessionId);
 
         mockMvc.perform(post(API_GAME_START)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(SESSION_ID_XXX));
 
-        verify(gameServiceMock, times(1)).createSession();
+        verify(gameServiceMock, times(1)).createSession(playerName);
     }
 
     @Test
